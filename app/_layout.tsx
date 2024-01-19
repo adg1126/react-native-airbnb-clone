@@ -55,6 +55,12 @@ function RootLayoutNav() {
 				name='(tabs)'
 				options={{ headerShown: false }}
 			/>
+			<Stack.Screen
+				name='(modals)/login'
+				options={{
+					presentation: "modal",
+				}}
+			/>
 		</Stack>
 	);
 }
