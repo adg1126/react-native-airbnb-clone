@@ -24,7 +24,11 @@ const categories = [
 	{ name: "Countryside", icon: "nature-people" },
 ];
 
-const ExploreHeader = () => {
+interface Props {
+	onCategoryChange: (category: string) => void;
+}
+
+const ExploreHeader = ({ onCategoryChange }: Props) => {
 	const categoryRef = useRef<Array<TouchableOpacity | null>>([]),
 		scrollRef = useRef<ScrollView>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -38,6 +42,7 @@ const ExploreHeader = () => {
 		});
 
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+		onCategoryChange(categories[i].name);
 	};
 
 	return (
