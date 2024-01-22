@@ -79,6 +79,7 @@ const Layout = () => {
 							size={size}
 						/>
 					),
+					headerShown: false,
 				}}
 			/>
 		</Tabs>
