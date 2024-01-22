@@ -5,9 +5,10 @@ import {
 	Dimensions,
 	Image,
 	TouchableOpacity,
+	Share,
 } from "react-native";
-import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import React, { useLayoutEffect } from "react";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import listingsData from "@/assets/data/airbnb-listings.json";
 import { Listing } from "../../interfaces/listing";
 import Animated, {
@@ -30,8 +31,60 @@ const Page = () => {
 		(item) => item.id === id
 	);
 	const scrollRef = useAnimatedRef<Animated.ScrollView>();
-
 	const scrollOffset = useScrollViewOffset(scrollRef);
+	const navigation = useNavigation();
+
+	const shareListing = async () => {
+		try {
+			await Share.share({
+				title: listing.name,
+				url: listing.listing_url,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerBackground: () => (
+				<Animated.View style={[headerAnimatedStyle, styles.header]} />
+			),
+			headerRight: () => (
+				<View style={styles.bar}>
+					<TouchableOpacity
+						style={styles.roundButton}
+						onPress={shareListing}
+					>
+						<Ionicons
+							name='share-outline'
+							size={22}
+							color={"#000"}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.roundButton}>
+						<Ionicons
+							name='heart-outline'
+							size={22}
+							color={"#000"}
+						/>
+					</TouchableOpacity>
+				</View>
+			),
+			headerLeft: () => (
+				<TouchableOpacity
+					style={styles.roundButton}
+					onPress={() => navigation.goBack()}
+				>
+					<Ionicons
+						name='chevron-back'
+						size={24}
+						color={"#000"}
+					/>
+				</TouchableOpacity>
+			),
+		});
+	}, []);
 
 	const imageAnimatedStyle = useAnimatedStyle(() => {
 		return {
@@ -51,6 +104,12 @@ const Page = () => {
 					),
 				},
 			],
+		};
+	});
+
+	const headerAnimatedStyle = useAnimatedStyle(() => {
+		return {
+			opacity: interpolate(scrollOffset.value, [0, IMG_HEIGHT / 1.5], [0, 1]),
 		};
 	});
 
