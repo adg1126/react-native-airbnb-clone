@@ -15,6 +15,8 @@ import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { CLERK_PUBLISHABLE_KEY } from "@env";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import ModalHeaderText from "@/components/ModalHeaderText";
+import Colors from "@/constants/Colors";
 
 const tokenCache = {
 	async getToken(key: string) {
@@ -120,11 +122,22 @@ function RootLayoutNav() {
 						name='(modals)/booking'
 						options={{
 							presentation: "transparentModal",
+							headerTransparent: true,
+							headerTitle: () => <ModalHeaderText />,
 							headerLeft: () => (
-								<TouchableOpacity onPress={() => router.back()}>
+								<TouchableOpacity
+									style={{
+										backgroundColor: "#fff",
+										borderColor: Colors.grey,
+										borderRadius: 20,
+										borderWidth: 1,
+										padding: 4,
+									}}
+									onPress={() => router.back()}
+								>
 									<Ionicons
 										name='close-outline'
-										size={28}
+										size={22}
 									/>
 								</TouchableOpacity>
 							),
