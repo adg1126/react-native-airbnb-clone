@@ -18,6 +18,8 @@ import { defaultStyles } from "@/constants/Styles";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
+// @ts-ignore
+import DatePicker from "react-native-modern-datepicker";
 
 import { places } from "@/assets/data/places";
 
@@ -28,6 +30,7 @@ const Page = () => {
 	const router = useRouter();
 	const [openCard, setOpenCard] = useState(0);
 	const [selectedPlace, setSelectedPlace] = useState(0);
+	const today = new Date().toISOString().substring(0, 10);
 
 	const onClearAll = () => {
 		setSelectedPlace(0);
@@ -133,7 +136,19 @@ const Page = () => {
 						>
 							When's your trip?
 						</Animated.Text>
-						<Animated.View style={styles.cardBody}></Animated.View>
+						<Animated.View style={styles.cardBody}>
+							<DatePicker
+								current={today}
+								selected={today}
+								mode={"Calendar"}
+								option={{
+									defaultFont: "mon",
+									headerFont: "mon-sb",
+									borderColor: "transparent",
+									mainColor: Colors.primary,
+								}}
+							/>
+						</Animated.View>
 					</>
 				)}
 			</View>
